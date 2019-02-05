@@ -146,34 +146,26 @@ namespace TeapplixAPIAccess
             return response;
         }
 
-        /// <summary>
-        /// Incomplete. Teapplix have no implementation for this. 
-        /// </summary>
-        /// <param name="teapplixProductVariations"></param>
-        /// <returns></returns>
-        public (TeapplixProductResponse result, string error) GenerateItemMapping(List<TeapplixProductVariations> teapplixProductVariations)
+        public (TeapplixProductMappingResponse result, string error) UploadProductMapping(TeapplixProductMappings teapplixProductMappings)
         {
-            (TeapplixProductResponse result, string error) response = (null, null);
+            (TeapplixProductMappingResponse result, string error) response = (null, null);
 
-            //var jsonstring = JsonConvert.SerializeObject(
-            //    value: teapplixProductVariations,
-            //    settings: new JsonSerializerSettings()
-            //    {
-            //        NullValueHandling = NullValueHandling.Ignore
-            //    }
-            //    );
+            var jsonstring = JsonConvert.SerializeObject(
+                value: teapplixProductMappings,
+                settings: new JsonSerializerSettings() {
+                        NullValueHandling = NullValueHandling.Ignore
+                    }
+                );
 
-            //var reqresponse = Upload(RequestMethod.POST, "??", jsonstring);
+            var reqresponse = Upload(RequestMethod.POST, "ProductXref", jsonstring);
 
-            //if (reqresponse.rxdata != null)
-            //{
-            //    response.result = JsonConvert.DeserializeObject<TeapplixProductResponse>(reqresponse.rxdata);
-            //}
+            if (reqresponse.rxdata != null)
+            {
+                response.result = JsonConvert.DeserializeObject<TeapplixProductMappingResponse>(reqresponse.rxdata);
+            }
 
-            //if (reqresponse.error != null)
-            //    response.error = reqresponse.error;
-
-            response.error = "Function Not Implemented";
+            if (reqresponse.error != null)
+                response.error = reqresponse.error;
 
             return response;
         }
